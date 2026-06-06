@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TashanWin Framed Injector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-green: #00ff88;
+            --neon-green-glow: rgba(0, 255, 136, 0.6);
+            --neon-red: #ff003c;
+            --neon-gold: #FFD700;
+            --dark-bg: #050f0a;
+            --panel-bg: linear-gradient(180deg, #0a1a14 0%, #050f0a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Background Iframe */
+        #background-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        /* Overlay UI Container */
+        #overlay-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Let clicks pass through to iframe by default */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mini Button */
+        #miniBtn {
+            width: 70px;
+            height: 70px;
+            background: var(--panel-bg);
+            border-radius: 50%;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 20px var(--neon-green-glow), inset 0 0 10px var(--neon-green-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+            position: fixed;
+            pointer-events: auto; /* Re-enable clicks for this element */
+            z-index: 1001;
+            top: 20px;
+            left: 20px;
+        }
+
+        #miniBtn img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px var(--neon-green));
+        }
+
+        /* Main Panel */
+        #main {
+            width: 280px;
+            background: #000;
+            border-radius: 25px;
+            padding: 15px;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), 0 0 15px var(--neon-green-glow);
+            display: none;
+            flex-direction: column;
+            position: relative;
+            pointer-events: auto; /* Re-enable clicks for this element */
+            z-index: 1002;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Wings */
+        .wings-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 480px;
+            height: 300px;
+            pointer-events: none;
+            z-index: -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wing {
+            width: 220px;
+            height: 280px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: hue-rotate(55deg) saturate(2.5) brightness(1.3) drop-shadow(0 0 15px #00ff00);
+            opacity: 0.95;
+        }
+
+        .wing-left {
+            background-image: url('https://i.ibb.co/GfMDr8H9/leftwing.png');
+            animation: flapLeft 3s ease-in-out infinite;
+            margin-left: -40px;
+        }
+
+        .wing-right {
+            background-image: url('https://i.ibb.co/S7R137Cs/rightsidewingss.png');
+            animation: flapRight 3s ease-in-out infinite;
+            margin-right: -40px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .brand-title {
+            font-weight: 900;
+            font-size: 16px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-green);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #cls-btn {
+            position: absolute;
+            right: 0;
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.5;
+        }
+        #cls-btn:hover { opacity: 1; }
+
+        /* Marquee / Running Text */
+        .marquee-container {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            padding: 4px 0;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+            color: var(--neon-green);
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 10px;
+            color: #fff;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+            color: var(--neon-green);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Display Area */
+        .display-bezel {
+            width: 100%;
+            height: 160px;
+            background: radial-gradient(circle at center, #0a2218 0%, #050f0a 100%);
+            border-radius: 20px;
+            padding: 5px;
+            border: 2px solid var(--neon-green);
+            box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Screen UI */
+        #screenUI {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .screen-main-text {
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 15px var(--neon-green);
+            margin-bottom: 10px;
+        }
+
+        .screen-sub-text {
+            color: #fff;
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            opacity: 0.8;
+        }
+
+        /* Scanning UI */
+        #scanningUI {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .scanning-circle {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(0, 255, 136, 0.1);
+            border-top: 3px solid var(--neon-green);
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            animation: rotate 1s linear infinite;
+        }
+
+        .avatar-box {
+            width: 40px;
+            height: 40px;
+            background: #111;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--neon-green);
+            overflow: hidden;
+            animation: rotateCounter 1s linear infinite;
+        }
+
+        .avatar-box img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .scan-text {
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+
+        .scan-subtext {
+            color: var(--neon-green);
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            width: 120px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* Result UI */
+        #resultUI {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .result-main {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 15px var(--neon-green);
+            letter-spacing: 2px;
+        }
+
+        .result-ball {
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle at 30% 30%, #ff5555, #880000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset -5px -5px 10px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .result-ball img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+
+        .ball-glow {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--neon-green-glow) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulseGlow 2s infinite;
+        }
+
+        .result-period {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--neon-green);
+            font-size: 11px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .btn {
+            height: 45px;
+            border-radius: 15px;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+
+        .btn-main {
+            flex: 1;
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-green-glow);
+        }
+
+        .btn-tg {
+            width: 45px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--neon-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-tg svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--neon-green);
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        /* Animations */
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotateCounter { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        @keyframes flapLeft { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg) translateX(-10px) translateY(-5px); } }
+        @keyframes flapRight { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(10deg) translateX(10px) translateY(-5px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes pulseGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 0.3; } }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Iframe -->
+    <iframe id="background-frame" src="https://www.tashanwin17.com/#/register?invitationCode=233715945443" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation"></iframe>
+
+    <!-- Overlay UI -->
+    <div id="overlay-container">
+        <div id="miniBtn" onclick="openM()">
+            <img src="https://i.ibb.co/ZzCwmRcF/IMG-20260606-152432-928.jpg" alt="AI">
+        </div>
+
+        <div id="main">
+            <div class="wings-container">
+                <div class="wing wing-left"></div>
+                <div class="wing wing-right"></div>
+            </div>
+
+            <div class="header">
+                <div class="brand-title">KING X NUMBER</div>
+                <div id="cls-btn" onclick="closeM()">✕</div>
+            </div>
+
+            <div class="marquee-container">
+                <div class="marquee-text" id="marqueeText">SYSTEM SECURED - READY FOR INJECTION</div>
+            </div>
+
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="live-dot"></span> LIVE
+                </div>
+                <div class="status-item">MOD: ON</div>
+                <div class="status-item">PING: <span id="pingVal">56</span>MS</div>
+            </div>
+
+            <div class="display-bezel" id="displayArea">
+                <div id="screenUI">
+                    <div class="screen-main-text" id="screenMainText">READY</div>
+                    <div class="screen-sub-text" id="screenSubText">SYSTEM STANDBY</div>
+                </div>
+
+                <div id="scanningUI">
+                    <div class="scanning-circle">
+                        <div class="avatar-box">
+                            <img src="https://i.ibb.co/ZzCwmRcF/IMG-20260606-152432-928.jpg" alt="User">
+                        </div>
+                    </div>
+                    <div class="scan-text">SCANNING SIGNAL</div>
+                    <div class="scan-subtext">RESULT SCANNING <span id="percent">0</span>%</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+
+                <div id="resultUI">
+                    <div class="result-main">
+                        <div class="result-title" id="resTitle">BIG</div>
+                        <div class="result-ball">
+                            <div class="ball-glow"></div>
+                            <img id="numImg" src="" alt="Num">
+                        </div>
+                    </div>
+                    <div class="result-period" id="resPeriod">PERIOD NO : -----</div>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-main" id="actionBtn" onclick="start()">START INJECTION</button>
+                <button class="btn btn-tg" onclick="window.open('https://t.me/earnwithkiing')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.89.03-.24.36-.49.99-.75 3.88-1.69 6.47-2.8 7.76-3.34 3.69-1.54 4.45-1.81 4.95-1.82.11 0 .35.03.5.16.13.1.17.24.18.33.01.07.02.21.01.37z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const numAssets = {
+            1: 'https://i.ibb.co/Y7vyJSCj/number1.png',
+            2: 'https://i.ibb.co/Swpt3Mwk/number2.png',
+            3: 'https://i.ibb.co/Vc5zjJ4S/number3.png',
+            4: 'https://i.ibb.co/BVMYCC4Q/number4.png',
+            5: 'https://i.ibb.co/rRjNrkfJ/number5.png',
+            6: 'https://i.ibb.co/XrBMXmNy/number6.png',
+            7: 'https://i.ibb.co/KpbtVdPp/number7.png',
+            8: 'https://i.ibb.co/Kg6SG31/number8.png',
+            9: 'https://i.ibb.co/hxm5h7jL/number9.png',
+            0: 'https://i.ibb.co/bgZ0172c/number0.png'
+        };
+
+        function openM(){
+            document.getElementById('main').style.display='flex';
+            document.getElementById('miniBtn').style.display='none';
+        }
+
+        function closeM(){
+            document.getElementById('main').style.display='none';
+            document.getElementById('miniBtn').style.display='flex';
+        }
+
+        function start() {
+            document.getElementById('screenUI').style.display = 'none';
+            document.getElementById('scanningUI').style.display = 'flex';
+            document.getElementById('resultUI').style.display = 'none';
+            document.getElementById('actionBtn').innerText = 'SCANNING...';
+            document.getElementById('actionBtn').disabled = true;
+
+            let progress = 0;
+            const bar = document.getElementById('progressBar');
+            const pct = document.getElementById('percent');
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5) + 2;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    fetchResult();
+                }
+                bar.style.width = progress + '%';
+                pct.innerText = progress;
+            }, 100);
+        }
+
+        function fetchResult() {
+            fetch('https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json')
+            .then(r => r.json())
+            .then(data => {
+                const last = data.data.list[0];
+                const num = parseInt(last.number);
+                const res = (num <= 4) ? 'SMALL' : 'BIG';
+                const period = last.issueNumber.slice(-5);
+                const imgUrl = numAssets[num] || numAssets[1];
+
+                document.getElementById('scanningUI').style.display = 'none';
+                document.getElementById('resultUI').style.display = 'flex';
+                
+                document.getElementById('resTitle').innerText = res;
+                document.getElementById('numImg').src = imgUrl;
+                document.getElementById('resPeriod').innerText = "PERIOD NO : " + period;
+
+                document.getElementById('actionBtn').innerText = 'RE-SCAN';
+                document.getElementById('actionBtn').disabled = false;
+            })
+            .catch(() => {
+                document.getElementById('scanningUI').style.display = 'none';
+                document.getElementById('screenUI').style.display = 'flex';
+                document.getElementById('screenMainText').innerText = 'ERROR';
+                document.getElementById('actionBtn').innerText = 'RETRY';
+                document.getElementById('actionBtn').disabled = false;
+            });
+        }
+
+        // Draggable functionality
+        let dragging = false, current = null, ox = 0, oy = 0;
+        const mini = document.getElementById('miniBtn');
+        const main = document.getElementById('main');
+
+        function setupDrag(el) {
+            el.addEventListener('touchstart', e => {
+                dragging = true;
+                current = el;
+                const t = e.touches[0];
+                ox = t.clientX - el.offsetLeft;
+                oy = t.clientY - el.offsetTop;
+            }, {passive: false});
+
+            el.addEventListener('mousedown', e => {
+                dragging = true;
+                current = el;
+                ox = e.clientX - el.offsetLeft;
+                oy = e.clientY - el.offsetTop;
+            });
+
+            document.addEventListener('mousemove', e => {
+                if (!dragging || !current) return;
+                let x = e.clientX - ox;
+                let y = e.clientY - oy;
+                current.style.left = x + 'px';
+                current.style.top = y + 'px';
+                current.style.position = 'fixed';
+            });
+
+            document.addEventListener('touchmove', e => {
+                if (!dragging || !current) return;
+                const t = e.touches[0];
+                let x = t.clientX - ox;
+                let y = t.clientY - oy;
+                current.style.left = x + 'px';
+                current.style.top = y + 'px';
+                current.style.position = 'fixed';
+            }, {passive: false});
+
+            document.addEventListener('mouseup', () => {
+                dragging = false;
+                current = null;
+            });
+
+            document.addEventListener('touchend', () => {
+                dragging = false;
+                current = null;
+            });
+        }
+
+        setupDrag(mini);
+        setupDrag(main);
+
+        setInterval(() => {
+            const ping = Math.floor(Math.random() * 20) + 40;
+            const pingEl = document.getElementById('pingVal');
+            if(pingEl) pingEl.innerText = ping;
+        }, 3000);
+
+    </script>
+</body>
+</html>
