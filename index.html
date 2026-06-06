@@ -60,12 +60,12 @@
 
         /* Mini Button */
         #miniBtn {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--panel-bg);
             border-radius: 50%;
             border: 2px solid var(--neon-green);
-            box-shadow: 0 0 20px var(--neon-green-glow), inset 0 0 10px var(--neon-green-glow);
+            box-shadow: 0 0 15px var(--neon-green-glow), inset 0 0 8px var(--neon-green-glow);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -87,12 +87,12 @@
 
         /* Main Panel */
         #main {
-            width: 280px;
+            width: 220px;
             background: #000;
-            border-radius: 25px;
-            padding: 15px;
+            border-radius: 20px;
+            padding: 12px;
             border: 2px solid var(--neon-green);
-            box-shadow: 0 0 30px rgba(0,0,0,0.8), 0 0 15px var(--neon-green-glow);
+            box-shadow: 0 0 25px rgba(0,0,0,0.8), 0 0 12px var(--neon-green-glow);
             display: none;
             flex-direction: column;
             position: relative;
@@ -107,8 +107,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 480px;
-            height: 300px;
+            width: 380px;
+            height: 240px;
             pointer-events: none;
             z-index: -1;
             display: flex;
@@ -117,31 +117,31 @@
         }
 
         .wing {
-            width: 220px;
-            height: 280px;
+            width: 160px;
+            height: 220px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            filter: hue-rotate(55deg) saturate(2.5) brightness(1.3) drop-shadow(0 0 15px #00ff00);
-            opacity: 0.95;
+            filter: hue-rotate(55deg) saturate(2.5) brightness(1.3) drop-shadow(0 0 10px #00ff00);
+            opacity: 0.9;
         }
 
         .wing-left {
             background-image: url('https://i.ibb.co/GfMDr8H9/leftwing.png');
             animation: flapLeft 3s ease-in-out infinite;
-            margin-left: -40px;
+            margin-left: -30px;
         }
 
         .wing-right {
             background-image: url('https://i.ibb.co/S7R137Cs/rightsidewingss.png');
             animation: flapRight 3s ease-in-out infinite;
-            margin-right: -40px;
+            margin-right: -30px;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -150,10 +150,10 @@
 
         .brand-title {
             font-weight: 900;
-            font-size: 16px;
+            font-size: 13px;
             color: #fff;
-            text-shadow: 0 0 10px var(--neon-green);
-            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--neon-green);
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
@@ -162,7 +162,7 @@
             right: 0;
             color: #fff;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
             opacity: 0.5;
         }
         #cls-btn:hover { opacity: 1; }
@@ -171,9 +171,9 @@
         .marquee-container {
             background: rgba(0, 255, 136, 0.1);
             border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 8px;
-            padding: 4px 0;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            padding: 3px 0;
+            margin-bottom: 8px;
             overflow: hidden;
         }
 
@@ -183,7 +183,7 @@
             white-space: nowrap;
             animation: marquee 15s linear infinite;
             color: var(--neon-green);
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -200,10 +200,10 @@
             justify-content: space-between;
             align-items: center;
             background: rgba(0, 0, 0, 0.6);
-            padding: 8px 12px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            font-size: 10px;
+            padding: 6px 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 9px;
             color: #fff;
             border: 1px solid rgba(0, 255, 136, 0.2);
         }
@@ -211,29 +211,29 @@
         .status-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             font-weight: bold;
             color: var(--neon-green);
         }
 
         .live-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: var(--neon-green);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
             animation: pulse 1.5s infinite;
         }
 
         /* Display Area */
         .display-bezel {
             width: 100%;
-            height: 160px;
+            height: 130px;
             background: radial-gradient(circle at center, #0a2218 0%, #050f0a 100%);
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 5px;
             border: 2px solid var(--neon-green);
-            box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.2);
+            box-shadow: inset 0 0 15px rgba(0, 255, 136, 0.2);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -251,16 +251,16 @@
         }
 
         .screen-main-text {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 15px var(--neon-green);
-            margin-bottom: 10px;
+            text-shadow: 0 0 12px var(--neon-green);
+            margin-bottom: 8px;
         }
 
         .screen-sub-text {
             color: #fff;
-            font-size: 10px;
+            font-size: 9px;
             font-family: 'Space Mono', monospace;
             opacity: 0.8;
         }
@@ -273,8 +273,8 @@
         }
 
         .scanning-circle {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border: 3px solid rgba(0, 255, 136, 0.1);
             border-top: 3px solid var(--neon-green);
             border-radius: 50%;
@@ -282,13 +282,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             animation: rotate 1s linear infinite;
         }
 
         .avatar-box {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             background: #111;
             border-radius: 50%;
             display: flex;
@@ -307,23 +307,23 @@
 
         .scan-text {
             color: #fff;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             letter-spacing: 1px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             text-shadow: 0 0 5px var(--neon-green);
         }
 
         .scan-subtext {
             color: var(--neon-green);
-            font-size: 10px;
+            font-size: 9px;
             font-family: 'Space Mono', monospace;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .progress-container {
-            width: 120px;
-            height: 6px;
+            width: 100px;
+            height: 5px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
             overflow: hidden;
@@ -334,7 +334,7 @@
             width: 0%;
             height: 100%;
             background: var(--neon-green);
-            box-shadow: 0 0 10px var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
         }
 
         /* Result UI */
@@ -350,27 +350,27 @@
         .result-main {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .result-title {
-            font-size: 32px;
+            font-size: 26px;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 15px var(--neon-green);
-            letter-spacing: 2px;
+            text-shadow: 0 0 12px var(--neon-green);
+            letter-spacing: 1.5px;
         }
 
         .result-ball {
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             background: radial-gradient(circle at 30% 30%, #ff5555, #880000);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset -5px -5px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), inset -4px -4px 8px rgba(0,0,0,0.5);
             position: relative;
         }
 
@@ -382,8 +382,8 @@
 
         .ball-glow {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 65px;
+            height: 65px;
             background: radial-gradient(circle, var(--neon-green-glow) 0%, transparent 70%);
             z-index: -1;
             animation: pulseGlow 2s infinite;
@@ -391,10 +391,10 @@
 
         .result-period {
             background: rgba(0, 0, 0, 0.6);
-            padding: 5px 20px;
-            border-radius: 20px;
+            padding: 4px 15px;
+            border-radius: 15px;
             border: 1px solid var(--neon-green);
-            font-size: 11px;
+            font-size: 10px;
             color: #fff;
             letter-spacing: 1px;
         }
@@ -402,18 +402,18 @@
         /* Buttons */
         .btn-container {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 12px;
             width: 100%;
         }
 
         .btn {
-            height: 45px;
-            border-radius: 15px;
+            height: 38px;
+            border-radius: 12px;
             border: none;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             transition: 0.2s;
             display: flex;
@@ -426,11 +426,11 @@
             flex: 1;
             background: var(--neon-green);
             color: #000;
-            box-shadow: 0 0 15px var(--neon-green-glow);
+            box-shadow: 0 0 12px var(--neon-green-glow);
         }
 
         .btn-tg {
-            width: 45px;
+            width: 38px;
             background: rgba(0, 255, 136, 0.1);
             border: 1px solid var(--neon-green);
             display: flex;
@@ -439,8 +439,8 @@
         }
 
         .btn-tg svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             fill: var(--neon-green);
         }
 
@@ -449,9 +449,9 @@
         /* Animations */
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes rotateCounter { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-        @keyframes flapLeft { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg) translateX(-10px) translateY(-5px); } }
-        @keyframes flapRight { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(10deg) translateX(10px) translateY(-5px); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes flapLeft { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg) translateX(-8px) translateY(-4px); } }
+        @keyframes flapRight { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(10deg) translateX(8px) translateY(-4px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @keyframes pulseGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 0.3; } }
@@ -476,26 +476,28 @@
             </div>
 
             <div class="header">
-                <div class="brand-title">KING X NUMBER</div>
-                <div id="cls-btn" onclick="closeM()">✕</div>
+                <div class="brand-title">TASHANWIN AI</div>
+                <div id="cls-btn" onclick="closeM()">×</div>
             </div>
 
             <div class="marquee-container">
-                <div class="marquee-text" id="marqueeText">SYSTEM SECURED - READY FOR INJECTION</div>
+                <div class="marquee-text">WELCOME TO TASHANWIN PREMIUM INJECTOR - ACCURACY 99% - ENJOY YOUR WINNING</div>
             </div>
 
             <div class="status-bar">
                 <div class="status-item">
-                    <span class="live-dot"></span> LIVE
+                    <div class="live-dot"></div>
+                    LIVE
                 </div>
-                <div class="status-item">MOD: ON</div>
-                <div class="status-item">PING: <span id="pingVal">56</span>MS</div>
+                <div class="status-item">
+                    PING: <span id="pingVal">45</span>ms
+                </div>
             </div>
 
-            <div class="display-bezel" id="displayArea">
+            <div class="display-bezel">
                 <div id="screenUI">
                     <div class="screen-main-text" id="screenMainText">READY</div>
-                    <div class="screen-sub-text" id="screenSubText">SYSTEM STANDBY</div>
+                    <div class="screen-sub-text">WAITING FOR COMMAND...</div>
                 </div>
 
                 <div id="scanningUI">
@@ -504,8 +506,8 @@
                             <img src="https://i.ibb.co/ZzCwmRcF/IMG-20260606-152432-928.jpg" alt="User">
                         </div>
                     </div>
-                    <div class="scan-text">SCANNING SIGNAL</div>
-                    <div class="scan-subtext">RESULT SCANNING <span id="percent">0</span>%</div>
+                    <div class="scan-text">SCANNING...</div>
+                    <div class="scan-subtext">PROGRESS: <span id="percent">0</span>%</div>
                     <div class="progress-container">
                         <div class="progress-bar" id="progressBar"></div>
                     </div>
@@ -519,12 +521,12 @@
                             <img id="numImg" src="" alt="Num">
                         </div>
                     </div>
-                    <div class="result-period" id="resPeriod">PERIOD NO : -----</div>
+                    <div class="result-period" id="resPeriod">PERIOD: -----</div>
                 </div>
             </div>
 
             <div class="btn-container">
-                <button class="btn btn-main" id="actionBtn" onclick="start()">START INJECTION</button>
+                <button class="btn btn-main" id="actionBtn" onclick="start()">START</button>
                 <button class="btn btn-tg" onclick="window.open('https://t.me/earnwithkiing')">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.45-.42-1.39-.89.03-.24.36-.49.99-.75 3.88-1.69 6.47-2.8 7.76-3.34 3.69-1.54 4.45-1.81 4.95-1.82.11 0 .35.03.5.16.13.1.17.24.18.33.01.07.02.21.01.37z"/></svg>
                 </button>
@@ -594,7 +596,7 @@
                 
                 document.getElementById('resTitle').innerText = res;
                 document.getElementById('numImg').src = imgUrl;
-                document.getElementById('resPeriod').innerText = "PERIOD NO : " + period;
+                document.getElementById('resPeriod').innerText = "PERIOD: " + period;
 
                 document.getElementById('actionBtn').innerText = 'RE-SCAN';
                 document.getElementById('actionBtn').disabled = false;
